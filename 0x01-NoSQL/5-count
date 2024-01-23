@@ -1,0 +1,2 @@
+// cound of documents in acollection
+db.school.cound()
