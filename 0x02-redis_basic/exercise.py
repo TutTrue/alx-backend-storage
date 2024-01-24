@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-""" Cache module """
+""" Cache module handling the caching of an application"""
 import uuid
 from typing import Union, Optional, Callable
 from functools import wraps
@@ -34,7 +34,7 @@ def call_history(method: Callable) -> Callable:
 
 
 def replay(method: Callable):
-    """ Replay decorator """
+    """ Replay decorator print history of calls of a particular function """
     r = redis.Redis()
     key = method.__qualname__
     count = r.get(key)
@@ -48,9 +48,9 @@ def replay(method: Callable):
 
 
 class Cache:
-    """ Cache class """
+    """ Cache class handles caching using redis """
     def __init__(self):
-        """ Constructor """
+        """ init a Cache object """
         self._redis = redis.Redis()
         self._redis.flushdb()
 
