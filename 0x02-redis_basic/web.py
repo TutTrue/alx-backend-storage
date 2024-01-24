@@ -18,6 +18,7 @@ def count(method: Callable) -> Callable:
         if cached:
             return cached.decode('utf-8')
         res = method(url)
+        redis.set(f"count:{url}", 0)
         redis.setex(f"cached:{url}", 10, res)
         return res
     return wrapper
