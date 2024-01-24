@@ -38,6 +38,8 @@ def replay(method: Callable):
     r = redis.Redis()
     key = method.__qualname__
     count = r.get(key)
+    if not count:
+        count = 0
     inputs = r.lrange(f"{key}:inputs", 0, -1)
     outputs = r.lrange(f"{key}:outputs", 0, -1)
     print(f"{key} was called {count} times:")
