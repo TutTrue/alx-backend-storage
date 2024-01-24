@@ -14,8 +14,9 @@ def count(method: Callable) -> Callable:
     def wrapper(url):
         """ wrapper """
         redis.incr(f"count:{url}")
-        if redis.exists(f"cached:{url}"):
-            return redis.get(f"cached:{url}").decode('utf-8')
+        cached = redis.get(f"cached:{url}")
+        if cached:
+            return cached.decode('utf-8')
         res = method(url)
         redis.setex(f"cached:{url}", 10, res)
         return res
