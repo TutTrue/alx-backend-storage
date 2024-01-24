@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-""" get_page """
+""" get_page module get page of url"""
 from typing import Callable
 from functools import wraps
 import requests
@@ -9,10 +9,10 @@ redis = redis.Redis()
 
 
 def count(method: Callable) -> Callable:
-    """ count """
+    """ count the number of times a method is called """
     @wraps(method)
     def wrapper(url):
-        """ wrapper """
+        """ wrapper  of count """
         redis.incr(f"count:{url}")
         cached = redis.get(f"cached:{url}")
         if cached:
@@ -26,5 +26,5 @@ def count(method: Callable) -> Callable:
 
 @count
 def get_page(url: str) -> str:
-    """ get_page """
+    """ get page of url"""
     return requests.get(url).text
